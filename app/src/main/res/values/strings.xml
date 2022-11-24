@@ -8,4 +8,6 @@
     <string name="distance_m">Distance (M)</string>
     <string name="end">End</string>
     <string name="resume">Resume</string>
+    <string name="home">Home</string>
+    <string name="history">History</string>
 </resources>
