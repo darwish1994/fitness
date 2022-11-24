@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Fitness</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start">Start</string>
+    <string name="duration">Duration</string>
+    <string name="steps">Steps</string>
+    <string name="distance_m">Distance (M)</string>
+    <string name="end">End</string>
+    <string name="resume">Resume</string>
 </resources>
