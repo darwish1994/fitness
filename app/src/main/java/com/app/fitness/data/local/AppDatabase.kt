@@ -14,5 +14,5 @@ import com.app.fitness.domain.model.Trip
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun fitnessDea(): FitnessDao
+    abstract fun fitnessDea(): TrackingDao
 }

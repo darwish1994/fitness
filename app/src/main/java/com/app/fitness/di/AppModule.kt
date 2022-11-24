@@ -3,6 +3,7 @@ package com.app.fitness.di
 import android.content.Context
 import androidx.room.Room
 import com.app.fitness.data.local.AppDatabase
+import com.app.fitness.data.local.TrackingDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,4 +28,9 @@ class AppModule {
         ).fallbackToDestructiveMigration()
             .build()
     }
+
+    @Singleton
+    @Provides
+    fun provideTrackingDao(appDatabase: AppDatabase):TrackingDao=appDatabase.fitnessDea()
+
 }
