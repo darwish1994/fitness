@@ -28,9 +28,16 @@ class StepsUpdateModel( private val context: Context) :
 
             if (stepsSensor == null)
                 throw StepsClient.StepException("No Step Counter Sensor")
-            else
-                sensorManager.registerListener(stepsCallback,stepsSensor,SensorManager.SENSOR_DELAY_UI)
+            else {
+               val register= sensorManager.registerListener(
+                    stepsCallback,
+                    stepsSensor,
+                    SensorManager.SENSOR_DELAY_UI
+                )
 
+                if (!register)
+                    throw StepsClient.StepException("fail to register step sensour")
+            }
 
             awaitClose {
                 sensorManager.unregisterListener(stepsCallback)
