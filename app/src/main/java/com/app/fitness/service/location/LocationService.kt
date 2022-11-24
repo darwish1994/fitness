@@ -8,8 +8,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.app.fitness.R
 import com.app.fitness.service.steps.StepsClient
-import com.app.fitness.service.steps.StepsUpdateModel
-import com.google.android.gms.location.LocationServices
+import com.app.fitness.service.steps.StepsClientImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +36,7 @@ class LocationService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        stepClient = StepsUpdateModel(context = applicationContext)
+        stepClient = StepsClientImpl(context = applicationContext)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -53,8 +52,8 @@ class LocationService : Service() {
             this,
             resources.getString(R.string.notification_location_channel_id)
         )
-            .setContentTitle("Tracking location...")
-            .setContentText("Location: null")
+            .setContentTitle(getString(R.string.location_tracking))
+            .setContentText(getString(R.string.search_for_location))
             .setSmallIcon(R.drawable.ic_location)
             .setOngoing(true)
 

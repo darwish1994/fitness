@@ -15,4 +15,8 @@
     <string name="channel_description">location tracking service</string>
     <string name="pause">Pause</string>
     <string name="gps_not_enable">GPS is not enable</string>
+    <string name="location_tracking">Location Tracking</string>
+    <string name="search_for_location">Searching for location</string>
+    <string name="no_sensor">No Step Counter Sensor</string>
+    <string name="fail_to_register_sensor">fail to register step sensor</string>
 </resources>

@@ -6,6 +6,7 @@ import com.app.fitness.data.local.AppDatabase
 import com.app.fitness.data.local.TrackingDao
 import com.app.fitness.service.location.LocationClient
 import com.app.fitness.service.location.LocationUpdateImpl
+import com.app.fitness.service.steps.StepsClientImpl
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import dagger.Module
@@ -45,5 +46,9 @@ class AppModule {
     @Provides
     fun provideLocationClient(@ApplicationContext context: Context,fusedLocationProviderClient: FusedLocationProviderClient)= LocationUpdateImpl(context,fusedLocationProviderClient)
 
+
+    @Singleton
+    @Provides
+    fun provideStepClient(@ApplicationContext context: Context)= StepsClientImpl(context)
 
 }
