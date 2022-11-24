@@ -13,4 +13,5 @@
     <string name="notification_location_channel_id">1111</string>
     <string name="notification_location_channel_name">Location Channel</string>
     <string name="channel_description">location tracking service</string>
+    <string name="pause">Pause</string>
 </resources>
