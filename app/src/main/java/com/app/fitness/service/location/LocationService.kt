@@ -18,13 +18,15 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LocationService : Service() {
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    private lateinit var locationClient: LocationClient
+    @Inject
+    lateinit var locationClient: LocationClient
     private lateinit var stepClient: StepsClient
 
 
@@ -34,10 +36,7 @@ class LocationService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        locationClient = LocationUpdateModel(
-            applicationContext,
-            LocationServices.getFusedLocationProviderClient(applicationContext)
-        )
+
         stepClient = StepsUpdateModel(context = applicationContext)
     }
 

@@ -14,4 +14,5 @@
     <string name="notification_location_channel_name">Location Channel</string>
     <string name="channel_description">location tracking service</string>
     <string name="pause">Pause</string>
+    <string name="gps_not_enable">GPS is not enable</string>
 </resources>
