@@ -1,5 +1,6 @@
 package com.app.fitness.presenter.home
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -18,45 +19,43 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // check if it has register observer before
         if (!viewModel.currentSessionLiveData.hasActiveObservers())
             observe(viewModel.currentSessionLiveData, ::sessionObserver)
+
+        // check if it has register observer before
+        if (!viewModel.timerLiveData.hasActiveObservers())
+            observe(viewModel.timerLiveData,::timerObserver)
+
+        // get current session updates
         viewModel.getCurrentSession()
 
     }
 
+
+    /***
+     * observer for current session
+     * observe changes happen for it
+     * */
     private fun sessionObserver(session: Session?) {
+        binding.tvSteps.text = (session?.steps ?: 0).toString()
+        binding.tvDistance.text = viewModel.getDistanceCovered(session?.steps ?: 0)
+
         when (session?.status) {
-            Status.START -> {
-                binding.btnStart.toGone()
-                binding.btnResume.toGone()
-                binding.btnPause.toVisible()
-                binding.btnEnd.toVisible()
-                activity?.startLocationTracker()
-            }
-            Status.PAUSE -> {
-                binding.btnPause.toGone()
-                binding.btnResume.toVisible()
-                binding.btnEnd.toVisible()
-                activity?.stopLocationTracker()
-            }
-
-            Status.FINISHED -> {
-                binding.btnStart.toVisible()
-                binding.btnPause.toGone()
-                binding.btnResume.toGone()
-                binding.btnEnd.toGone()
-            }
-
+            Status.START -> sessionStarted()
+            Status.PAUSE -> sessionPaused()
+            Status.FINISHED -> sessionFinished()
         }
 
-        binding.tvSteps.text=(session?.steps?:0).toString()
+
 
     }
 
-    override fun setListener(){
+    override fun setListener() {
         binding.btnStart.setOnClickListener(this)
         binding.btnPause.setOnClickListener(this)
         binding.btnResume.setOnClickListener(this)
+        binding.btnEnd.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -64,25 +63,72 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), View.OnClickListener {
             binding.btnStart.id -> startTracking()
             binding.btnPause.id -> viewModel.pauseSession()
             binding.btnResume.id -> viewModel.resumeSession()
-
-
+            binding.btnEnd.id -> viewModel.endSession()
         }
     }
 
+    /**
+     * check for location permission
+     * then create a session
+     * to start location trackting
+     * */
 
     private fun startTracking() {
         activity?.checkPermissions(
             arrayListOf(
                 android.Manifest.permission.ACCESS_FINE_LOCATION,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION
-            ),
+
+            ).apply {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    add(android.Manifest.permission.ACTIVITY_RECOGNITION)
+                }
+            },
             granted = {
                 viewModel.startSession()
             },
             denied = {}
         )
 
-
     }
 
+
+    /**
+     * observer fun for timer live data
+     * **/
+    private fun timerObserver(time:String?){
+        binding.tvTimer.text=time
+    }
+
+
+    /**
+     * fun responsible for action happen when session started
+     * */
+    private fun sessionStarted(){
+        viewModel.startTimer()
+        binding.btnStart.toGone()
+        binding.btnResume.toGone()
+        binding.btnPause.toVisible()
+        binding.btnEnd.toVisible()
+        activity?.startLocationTracker()
+    }
+    // action happen when user pause session
+    private fun sessionPaused(){
+        viewModel.pauseTimer()
+        binding.btnPause.toGone()
+        binding.btnResume.toVisible()
+        binding.btnEnd.toVisible()
+        activity?.stopLocationTracker()
+    }
+
+    private fun sessionFinished(){
+        viewModel.resetTimer()
+        binding.tvSteps.text="0"
+        binding.tvDistance.text="0"
+        binding.btnStart.toVisible()
+        binding.btnPause.toGone()
+        binding.btnResume.toGone()
+        binding.btnEnd.toGone()
+        activity?.stopLocationTracker()
+    }
 }
