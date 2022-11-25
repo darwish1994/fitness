@@ -17,6 +17,8 @@ interface SessionRepo {
 
     suspend fun updateTripSteps(steps: Int)
 
+    suspend fun updateTripLocation(latitude:Double,longitude:Double)
+
     fun getCurrentTripUpdates(): Flow<Session?>
 
     suspend fun getAllFinishTrips():List<Session>

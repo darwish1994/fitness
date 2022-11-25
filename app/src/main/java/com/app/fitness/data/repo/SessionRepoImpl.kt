@@ -3,6 +3,7 @@ package com.app.fitness.data.repo
 import com.app.fitness.data.local.SessionDao
 import com.app.fitness.domain.model.Status
 import com.app.fitness.domain.model.Session
+import com.app.fitness.domain.model.Tracking
 import com.app.fitness.domain.repo.SessionRepo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -91,6 +92,19 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
             if (status != Status.FINISHED) {
                 this.steps = steps
                 trackingDao.updateTrip(this)
+            }
+        }
+    }
+
+    override suspend fun updateTripLocation(latitude: Double, longitude: Double) {
+        val trip = trackingDao.getLastTrip()
+        trip?.apply {
+            if (status != Status.FINISHED) {
+                trackingDao.saveLocation(Tracking(
+                    tripId = id!!,
+                    latitude = latitude,
+                    longitude = longitude
+                ))
             }
         }
     }
