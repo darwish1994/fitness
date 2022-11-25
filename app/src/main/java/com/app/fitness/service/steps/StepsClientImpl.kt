@@ -5,12 +5,13 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import com.app.fitness.R
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
 
-class StepsUpdateModel( private val context: Context) :
+class StepsClientImpl(private val context: Context) :
     StepsClient {
     override fun getStepsUpdates(): Flow<Int> {
         return callbackFlow {
@@ -27,7 +28,7 @@ class StepsUpdateModel( private val context: Context) :
             }
 
             if (stepsSensor == null)
-                throw StepsClient.StepException("No Step Counter Sensor")
+                throw StepsClient.StepException(context.getString(R.string.no_sensor))
             else {
                val register= sensorManager.registerListener(
                     stepsCallback,
@@ -36,7 +37,7 @@ class StepsUpdateModel( private val context: Context) :
                 )
 
                 if (!register)
-                    throw StepsClient.StepException("fail to register step sensour")
+                    throw StepsClient.StepException( context.getString(R.string.fail_to_register_sensor))
             }
 
             awaitClose {

@@ -4,6 +4,12 @@ import android.content.Context
 import androidx.room.Room
 import com.app.fitness.data.local.AppDatabase
 import com.app.fitness.data.local.TrackingDao
+import com.app.fitness.service.location.LocationClient
+import com.app.fitness.service.location.LocationUpdateImpl
+import com.app.fitness.service.steps.StepsClient
+import com.app.fitness.service.steps.StepsClientImpl
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,5 +38,20 @@ class AppModule {
     @Singleton
     @Provides
     fun provideTrackingDao(appDatabase: AppDatabase):TrackingDao=appDatabase.fitnessDea()
+
+    @Provides
+    @Singleton
+    fun provideLocationClient(@ApplicationContext context: Context, fusedLocationProviderClient: FusedLocationProviderClient):LocationClient= LocationUpdateImpl(context,fusedLocationProviderClient)
+
+
+    @Provides
+    @Singleton
+    fun provideStepClient(@ApplicationContext context: Context): StepsClient = StepsClientImpl(context)
+
+    @Provides
+    @Singleton
+    fun provideFusedLocationClient(@ApplicationContext context: Context) = LocationServices.getFusedLocationProviderClient(context)
+
+
 
 }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.location.Location
 import android.location.LocationManager
 import android.os.Looper
+import com.app.fitness.R
 import com.app.fitness.common.extention.hasLocationPermission
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -14,17 +15,15 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LocationUpdateModel (
+class LocationUpdateImpl @Inject constructor(
     private val context: Context,
     private val client: FusedLocationProviderClient
 ) : LocationClient {
     @SuppressLint("MissingPermission")
     override fun getLocationUpdates(interval: Long): Flow<Location> {
         return callbackFlow {
-            if (!context.hasLocationPermission()) {
-                throw LocationClient.LocationException("Missing location permission")
-            }
 
             val locationManager =
                 context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -32,7 +31,7 @@ class LocationUpdateModel (
             val isNetworkEnabled =
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
             if (!isGpsEnabled && !isNetworkEnabled) {
-                throw LocationClient.LocationException("GPS is disabled")
+                throw LocationClient.LocationException(context.getString(R.string.gps_not_enable))
             }
 
             val request = LocationRequest.create()

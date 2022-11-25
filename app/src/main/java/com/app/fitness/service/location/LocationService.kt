@@ -8,8 +8,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.app.fitness.R
 import com.app.fitness.service.steps.StepsClient
-import com.app.fitness.service.steps.StepsUpdateModel
-import com.google.android.gms.location.LocationServices
+import com.app.fitness.service.steps.StepsClientImpl
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,28 +17,29 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LocationService : Service() {
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    private lateinit var locationClient: LocationClient
-    private lateinit var stepClient: StepsClient
+    override fun onCreate() {
+        super.onCreate()
+
+    }
+
+    @Inject
+    lateinit var locationClient: LocationClient
+
+    @Inject
+    lateinit var stepClient: StepsClient
 
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        locationClient = LocationUpdateModel(
-            applicationContext,
-            LocationServices.getFusedLocationProviderClient(applicationContext)
-        )
-        stepClient = StepsUpdateModel(context = applicationContext)
-    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
@@ -54,8 +54,8 @@ class LocationService : Service() {
             this,
             resources.getString(R.string.notification_location_channel_id)
         )
-            .setContentTitle("Tracking location...")
-            .setContentText("Location: null")
+            .setContentTitle(getString(R.string.location_tracking))
+            .setContentText(getString(R.string.search_for_location))
             .setSmallIcon(R.drawable.ic_location)
             .setOngoing(true)
 

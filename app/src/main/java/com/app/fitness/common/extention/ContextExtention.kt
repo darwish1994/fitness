@@ -61,8 +61,8 @@ fun Context.createLocationNotificationChannel() {
 fun Context.checkPermissions(permissions: List<String>, granted: () -> Unit, denied: () -> Unit) {
     Dexter.withContext(this).withPermissions(permissions).withListener(object :
         MultiplePermissionsListener {
-        override fun onPermissionsChecked(p0: MultiplePermissionsReport?) {
-            if (p0?.areAllPermissionsGranted() == true)
+        override fun onPermissionsChecked(p0: MultiplePermissionsReport) {
+            if (p0.areAllPermissionsGranted())
                 granted.invoke()
             else
                 denied.invoke()
