@@ -24,20 +24,22 @@ class LocationService : Service() {
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
+    override fun onCreate() {
+        super.onCreate()
+
+    }
+
     @Inject
     lateinit var locationClient: LocationClient
-    private lateinit var stepClient: StepsClient
+
+    @Inject
+    lateinit var stepClient: StepsClient
 
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
     }
 
-    override fun onCreate() {
-        super.onCreate()
-
-        stepClient = StepsClientImpl(context = applicationContext)
-    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {

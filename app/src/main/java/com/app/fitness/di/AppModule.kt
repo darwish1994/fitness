@@ -6,6 +6,7 @@ import com.app.fitness.data.local.AppDatabase
 import com.app.fitness.data.local.TrackingDao
 import com.app.fitness.service.location.LocationClient
 import com.app.fitness.service.location.LocationUpdateImpl
+import com.app.fitness.service.steps.StepsClient
 import com.app.fitness.service.steps.StepsClientImpl
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -38,17 +39,19 @@ class AppModule {
     @Provides
     fun provideTrackingDao(appDatabase: AppDatabase):TrackingDao=appDatabase.fitnessDea()
 
-    @Singleton
     @Provides
+    @Singleton
+    fun provideLocationClient(@ApplicationContext context: Context, fusedLocationProviderClient: FusedLocationProviderClient):LocationClient= LocationUpdateImpl(context,fusedLocationProviderClient)
+
+
+    @Provides
+    @Singleton
+    fun provideStepClient(@ApplicationContext context: Context): StepsClient = StepsClientImpl(context)
+
+    @Provides
+    @Singleton
     fun provideFusedLocationClient(@ApplicationContext context: Context) = LocationServices.getFusedLocationProviderClient(context)
 
-    @Singleton
-    @Provides
-    fun provideLocationClient(@ApplicationContext context: Context,fusedLocationProviderClient: FusedLocationProviderClient)= LocationUpdateImpl(context,fusedLocationProviderClient)
 
-
-    @Singleton
-    @Provides
-    fun provideStepClient(@ApplicationContext context: Context)= StepsClientImpl(context)
 
 }
