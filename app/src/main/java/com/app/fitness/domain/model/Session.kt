@@ -3,11 +3,12 @@ package com.app.fitness.domain.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+
 @Entity
-data class Tracking(
+data class Session(
     @PrimaryKey(autoGenerate = true)
     val id: Int?=null,
-    val tripId: Int,
-    val latitude: Double,
-    val longitude: Double
+    var steps: Int? = 0,
+    var duration: Long? = 0,
+    var status: Status? = null
 )
