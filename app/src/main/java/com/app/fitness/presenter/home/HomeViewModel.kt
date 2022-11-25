@@ -1,6 +1,5 @@
 package com.app.fitness.presenter.home
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +7,9 @@ import com.app.fitness.domain.model.Session
 import com.app.fitness.domain.model.Status
 import com.app.fitness.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,20 +25,54 @@ class HomeViewModel @Inject constructor(
     private val currentSessionUseCase: CurrentSessionUseCase
 ) : ViewModel() {
     val currentSessionLiveData by lazy { MutableLiveData<Session>() }
+    val timerLiveData by lazy { MutableLiveData<String>() }
+
+    private var timer = 0
+    private var timerJob: Job? = null
 
     fun getCurrentSession() {
         currentSessionUseCase.invoke()
-            .filter { it?.status != Status.FINISHED }
             .onEach {
                 currentSessionLiveData.value = it
             }.launchIn(viewModelScope)
 
     }
 
+
     fun startSession() {
         viewModelScope.launch {
             startSessionUseCase.invoke()
         }
+
+    }
+
+
+    /**
+     * timer module for calculate active time
+     *
+     * **/
+    fun startTimer() {
+        timerJob?.cancel()
+        timerJob = viewModelScope.launch(Dispatchers.Default) {
+            while (true) {
+                delay(1000)
+                timer += 1000
+                val sec = (timer / 1000)%60
+                val min = (timer/(1000* 60))%60
+                val hour = (timer  / (1000 * 60 * 60)) % 24
+                timerLiveData.postValue(String.format("%02d:%02d:%02d", hour, min, sec))
+            }
+        }
+    }
+
+    fun pauseTimer() {
+        timerJob?.cancel()
+    }
+
+    fun resetTimer() {
+        timerJob?.cancel()
+        timer = 0
+        timerLiveData.value = "00:00:00"
     }
 
     fun pauseSession() {
@@ -49,6 +85,19 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             resumeSessionUseCase.invoke()
         }
+    }
+
+    fun endSession(){
+        viewModelScope.launch {
+            finishSessionUseCase.invoke(timer.toLong())
+        }
+    }
+
+    fun getDistanceCovered(steps: Int): String {
+        val feet = (steps * 2.5).toInt()
+        val distance = feet / 3.281
+        val finalDistance: Double = String.format("%.2f", distance).toDouble()
+        return "$finalDistance "
     }
 
 
