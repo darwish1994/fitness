@@ -34,3 +34,18 @@ fun Notification.stepNotify(context: Context){
     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     notificationManager.notify(1, this)
 }
+
+fun Int.getDistanceCovered(): String {
+    val feet = (this * 2.5).toInt()
+    val distance = feet / 3.281
+    val finalDistance: Double = String.format("%.2f", distance).toDouble()
+    return "$finalDistance "
+}
+
+fun Long.timerFormat():String{
+    val sec = (this / 1000)%60
+    val min = (this/(1000* 60))%60
+    val hour = (this  / (1000 * 60 * 60)) % 24
+
+    return String.format("%02d:%02d:%02d", hour, min, sec)
+}

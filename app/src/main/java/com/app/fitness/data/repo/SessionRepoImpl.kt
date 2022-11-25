@@ -1,7 +1,6 @@
 package com.app.fitness.data.repo
 
 import android.location.Location
-import android.util.Log
 import com.app.fitness.data.local.SessionDao
 import com.app.fitness.domain.model.Status
 import com.app.fitness.domain.model.Session
@@ -127,5 +126,8 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
 
     override fun getCurrentTripUpdates(): Flow<Session?> = trackingDao.getCurrentTrip()
 
-    override suspend fun getAllFinishTrips(): List<Session> = trackingDao.getTrips()
+    /**
+     * get all complete sessions
+     * */
+    override  fun getAllFinishTrips(): Flow<List<Session>> = trackingDao.getSessions(Status.FINISHED)
 }

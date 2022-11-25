@@ -19,7 +19,7 @@ interface SessionRepo {
 
     fun getCurrentTripUpdates(): Flow<Session?>
 
-    suspend fun getAllFinishTrips():List<Session>
+     fun getAllFinishTrips():Flow<List<Session>>
 
 
 }

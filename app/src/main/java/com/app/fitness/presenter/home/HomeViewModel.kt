@@ -3,6 +3,7 @@ package com.app.fitness.presenter.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.fitness.common.extention.timerFormat
 import com.app.fitness.domain.model.Session
 import com.app.fitness.domain.model.Status
 import com.app.fitness.domain.usecase.*
@@ -27,7 +28,7 @@ class HomeViewModel @Inject constructor(
     val currentSessionLiveData by lazy { MutableLiveData<Session>() }
     val timerLiveData by lazy { MutableLiveData<String>() }
 
-    private var timer = 0
+    private var timer = 0L
     private var timerJob: Job? = null
 
     fun getCurrentSession() {
@@ -57,10 +58,8 @@ class HomeViewModel @Inject constructor(
             while (true) {
                 delay(1000)
                 timer += 1000
-                val sec = (timer / 1000)%60
-                val min = (timer/(1000* 60))%60
-                val hour = (timer  / (1000 * 60 * 60)) % 24
-                timerLiveData.postValue(String.format("%02d:%02d:%02d", hour, min, sec))
+
+                timerLiveData.postValue(timer.timerFormat())
             }
         }
     }
@@ -89,7 +88,7 @@ class HomeViewModel @Inject constructor(
 
     fun endSession(){
         viewModelScope.launch {
-            finishSessionUseCase.invoke(timer.toLong())
+            finishSessionUseCase.invoke(timer)
         }
     }
 
