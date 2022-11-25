@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Update
 import com.app.fitness.domain.model.Tracking
 import com.app.fitness.domain.model.Session
+import com.app.fitness.domain.model.Status
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -21,8 +22,8 @@ interface SessionDao {
     @Insert(onConflict = REPLACE)
     suspend fun saveLocation(tracking: Tracking)
 
-    @Query("SELECT * FROM session")
-    suspend fun getTrips(): List<Session>
+    @Query("SELECT * FROM session where status=:status ORDER BY id desc")
+     fun getSessions(status: Status): Flow<List<Session>>
 
     @Query("SELECT * FROM tracking where tripId=:tripId")
     suspend fun getTracking(tripId: Int): List<Tracking>
