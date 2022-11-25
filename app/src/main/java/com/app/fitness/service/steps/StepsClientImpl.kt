@@ -41,7 +41,7 @@ class StepsClientImpl @Inject constructor(private val context: Context) : StepsC
                 val register = sensorManager.registerListener(
                     stepsCallback,
                     stepsSensor,
-                    SensorManager.SENSOR_DELAY_NORMAL
+                    SensorManager.SENSOR_DELAY_UI
                 )
 
                 if (!register)
