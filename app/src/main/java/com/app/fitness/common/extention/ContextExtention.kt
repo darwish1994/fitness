@@ -41,22 +41,7 @@ fun Context.stopLocationTracker() {
     }
 }
 
-fun Context.createLocationNotificationChannel() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val name = getString(R.string.notification_location_channel_name)
-        val descriptionText = getString(R.string.channel_description)
-        val importance = NotificationManager.IMPORTANCE_LOW
-        val channelId = getString(R.string.notification_location_channel_id)
-        ( getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
-            NotificationChannel(channelId, name, importance).apply {
-                description = descriptionText
-                enableLights(true)
-                enableVibration(true)
-            }
-        )
 
-    }
-}
 
 fun Context.checkPermissions(permissions: List<String>, granted: () -> Unit, denied: () -> Unit) {
     Dexter.withContext(this).withPermissions(permissions).withListener(object :
@@ -78,4 +63,20 @@ fun Context.checkPermissions(permissions: List<String>, granted: () -> Unit, den
 
     }).onSameThread().check()
 
+
+}
+
+
+fun Context.createLocationNotificationChannel(name:String,description:String,channelId:String) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val importance = NotificationManager.IMPORTANCE_LOW
+        ( getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
+            NotificationChannel(channelId, name, importance).apply {
+                this.description = description
+                enableLights(true)
+                enableVibration(true)
+            }
+        )
+
+    }
 }
