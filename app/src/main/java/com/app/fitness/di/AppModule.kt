@@ -3,7 +3,7 @@ package com.app.fitness.di
 import android.content.Context
 import androidx.room.Room
 import com.app.fitness.data.local.AppDatabase
-import com.app.fitness.data.local.TrackingDao
+import com.app.fitness.data.local.SessionDao
 import com.app.fitness.service.location.LocationClient
 import com.app.fitness.service.location.LocationUpdateImpl
 import com.app.fitness.service.steps.StepsClient
@@ -37,7 +37,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideTrackingDao(appDatabase: AppDatabase):TrackingDao=appDatabase.fitnessDea()
+    fun provideTrackingDao(appDatabase: AppDatabase):SessionDao=appDatabase.fitnessDea()
 
     @Provides
     @Singleton
