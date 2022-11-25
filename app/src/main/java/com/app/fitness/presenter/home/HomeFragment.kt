@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.app.fitness.R
 import com.app.fitness.common.extention.*
@@ -18,7 +19,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
 
-    private val viewModel by viewModels<HomeViewModel>()
+    private val viewModel by activityViewModels<HomeViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -120,6 +121,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
     // action happen when user pause session
     private fun sessionPaused(){
         viewModel.pauseTimer()
+        binding.btnStart.toGone()
         binding.btnPause.toGone()
         binding.btnResume.toVisible()
         binding.btnEnd.toVisible()
