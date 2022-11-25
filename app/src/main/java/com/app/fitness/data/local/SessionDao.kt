@@ -27,6 +27,9 @@ interface SessionDao {
     @Query("SELECT * FROM tracking where tripId=:tripId")
     suspend fun getTracking(tripId: Int): List<Tracking>
 
+    @Query("SELECT * FROM tracking where tripId=:tripId ORDER BY id desc LIMIT 1")
+    suspend fun getLastTracking(tripId: Int): Tracking?
+
     @Query("SELECT * FROM session ORDER BY id desc LIMIT 1")
     suspend fun getLastTrip(): Session?
 

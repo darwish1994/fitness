@@ -13,8 +13,6 @@ interface SessionRepo {
 
     suspend fun endTrip(duration: Long)
 
-    suspend fun updateTripDistance(distance: Double)
-
     suspend fun updateTripSteps(steps: Int)
 
     suspend fun updateTripLocation(latitude:Double,longitude:Double)

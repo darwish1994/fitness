@@ -1,11 +1,15 @@
 package com.app.fitness.data.repo
 
+import android.location.Location
+import android.util.Log
 import com.app.fitness.data.local.SessionDao
 import com.app.fitness.domain.model.Status
 import com.app.fitness.domain.model.Session
 import com.app.fitness.domain.model.Tracking
 import com.app.fitness.domain.repo.SessionRepo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) : SessionRepo {
@@ -68,19 +72,7 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
         }
     }
 
-    /**
-     * set trip distance
-     *
-     * */
-    override suspend fun updateTripDistance(distance: Double) {
-        val trip = trackingDao.getLastTrip()
-        trip?.apply {
-            if (status != Status.FINISHED) {
-                this.distance = distance
-                trackingDao.updateTrip(this)
-            }
-        }
-    }
+
 
     /***
      *
@@ -100,17 +92,40 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
         val trip = trackingDao.getLastTrip()
         trip?.apply {
             if (status != Status.FINISHED) {
-                trackingDao.saveLocation(Tracking(
-                    tripId = id!!,
-                    latitude = latitude,
-                    longitude = longitude
-                ))
+                trackingDao.saveLocation(
+                    Tracking(
+                        tripId = id!!,
+                        latitude = latitude,
+                        longitude = longitude
+                    )
+                )
+
             }
         }
     }
 
 
-    override fun getCurrentTripUpdates(): Flow<Session?> =trackingDao.getCurrentTrip()
+    private suspend fun calculatedDistance(
+        lat1: Double,
+        long1: Double,
+        lat2: Double,
+        long2: Double
+    ): Float {
+        return withContext(Dispatchers.Default) {
+            Location("").apply {
+                latitude = lat1
+                longitude = long1
+            }.distanceTo(
+                Location("").apply {
+                    latitude = lat2
+                    longitude = long2
+                }
+            )
+        }
+    }
 
-    override suspend fun getAllFinishTrips(): List<Session> =trackingDao.getTrips()
+
+    override fun getCurrentTripUpdates(): Flow<Session?> = trackingDao.getCurrentTrip()
+
+    override suspend fun getAllFinishTrips(): List<Session> = trackingDao.getTrips()
 }
