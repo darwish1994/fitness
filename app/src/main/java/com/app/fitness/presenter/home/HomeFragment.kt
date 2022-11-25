@@ -3,8 +3,9 @@ package com.app.fitness.presenter.home
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.app.fitness.common.base.BaseFragment
+import com.app.fitness.R
 import com.app.fitness.common.extention.*
 import com.app.fitness.databinding.FragmentHomeBinding
 import com.app.fitness.domain.model.Session
@@ -13,9 +14,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(), View.OnClickListener {
+class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
+
+    private val binding by viewBinding(FragmentHomeBinding::bind)
+
     private val viewModel by viewModels<HomeViewModel>()
-    override fun getViewBinding(): FragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,6 +32,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), View.OnClickListener {
 
         // get current session updates
         viewModel.getCurrentSession()
+
+        setListener()
 
     }
 
@@ -51,7 +56,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), View.OnClickListener {
 
     }
 
-    override fun setListener() {
+    private fun setListener() {
         binding.btnStart.setOnClickListener(this)
         binding.btnPause.setOnClickListener(this)
         binding.btnResume.setOnClickListener(this)

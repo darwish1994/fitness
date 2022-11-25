@@ -8,11 +8,11 @@
     <fragment
         android:id="@+id/view_home"
         android:name="com.app.fitness.presenter.home.HomeFragment"
-        android:label="fragment_home"
+        android:label="@string/home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/historyFragment"
+        android:id="@+id/view_history"
         android:name="com.app.fitness.presenter.history.HistoryFragment"
-        android:label="fragment_history"
+        android:label="@string/history"
         tools:layout="@layout/fragment_history" />
 </navigation>

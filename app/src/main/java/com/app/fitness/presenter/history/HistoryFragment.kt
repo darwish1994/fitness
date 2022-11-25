@@ -1,10 +1,10 @@
 package com.app.fitness.presenter.history
 
-import com.app.fitness.common.base.BaseFragment
-import com.app.fitness.databinding.FragmentHistoryBinding
+import androidx.fragment.app.Fragment
+import com.app.fitness.R
 
-class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
-    override fun getViewBinding(): FragmentHistoryBinding = FragmentHistoryBinding.inflate(layoutInflater)
+class HistoryFragment : Fragment(R.layout.fragment_history){
+
 
 
 }
