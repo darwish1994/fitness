@@ -9,7 +9,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.app.fitness.R
 import com.app.fitness.common.base.BaseActivity
 import com.app.fitness.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
