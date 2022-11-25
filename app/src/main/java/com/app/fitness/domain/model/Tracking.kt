@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Tracking(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int?=null,
     val tripId: Int,
     val latitude: Double,
     val longitude: Double
