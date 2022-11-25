@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.app.fitness.data.local.AppDatabase
 import com.app.fitness.data.local.SessionDao
+import com.app.fitness.data.repo.SessionRepoImpl
+import com.app.fitness.domain.repo.SessionRepo
 import com.app.fitness.service.location.LocationClient
 import com.app.fitness.service.location.LocationUpdateImpl
 import com.app.fitness.service.steps.StepsClient
@@ -53,5 +55,8 @@ class AppModule {
     fun provideFusedLocationClient(@ApplicationContext context: Context) = LocationServices.getFusedLocationProviderClient(context)
 
 
+    @Provides
+    @Singleton
+    fun provideSessionRepo(sessionDao: SessionDao):SessionRepo=SessionRepoImpl(sessionDao)
 
 }
