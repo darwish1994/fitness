@@ -1,17 +1,16 @@
 package com.app.fitness.presenter.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.fitness.common.extention.timerFormat
-import com.app.fitness.domain.model.Session
-import com.app.fitness.domain.model.Status
+import com.app.fitness.data.model.Session
 import com.app.fitness.domain.usecase.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -25,8 +24,13 @@ class HomeViewModel @Inject constructor(
     private val finishSessionUseCase: FinishSessionUseCase,
     private val currentSessionUseCase: CurrentSessionUseCase
 ) : ViewModel() {
-    val currentSessionLiveData by lazy { MutableLiveData<Session>() }
-    val timerLiveData by lazy { MutableLiveData<String>() }
+    private val currentSessionLiveData by lazy { MutableLiveData<Session>() }
+    private val timerLiveData by lazy { MutableLiveData<String>() }
+
+    fun getSessionLiveData():LiveData<Session> = currentSessionLiveData
+    fun getTimerLiveData():LiveData<String> = timerLiveData
+
+
 
     private var timer = 0L
     private var timerJob: Job? = null

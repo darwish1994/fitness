@@ -22,4 +22,5 @@
     <string name="fail_to_register_sensor">fail to register step sensor</string>
     <string name="steps_number">Steps (%d)</string>
     <string name="Details">details</string>
+    <string name="refuse_permission_msg">To use app feature accept permissions</string>
 </resources>

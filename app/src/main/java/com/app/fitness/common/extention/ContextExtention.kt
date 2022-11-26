@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.app.fitness.R
 import com.app.fitness.service.location.LocationService
@@ -79,4 +81,8 @@ fun Context.createLocationNotificationChannel(name:String,description:String,cha
         )
 
     }
+}
+
+fun Context.showToast(@StringRes msg:Int){
+    Toast.makeText(this,msg,Toast.LENGTH_LONG).show()
 }

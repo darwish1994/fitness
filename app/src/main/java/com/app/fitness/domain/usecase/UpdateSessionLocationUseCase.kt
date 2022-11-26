@@ -9,7 +9,7 @@ import javax.inject.Singleton
 class UpdateSessionLocationUseCase @Inject constructor(private val sessionRepo: SessionRepo) {
 
     suspend operator fun invoke(location: Location) {
-        sessionRepo.updateTripLocation(latitude = location.latitude, longitude = location.longitude)
+        sessionRepo.updateSessionLocation(latitude = location.latitude, longitude = location.longitude)
     }
 
 }

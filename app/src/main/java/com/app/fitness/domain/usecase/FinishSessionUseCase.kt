@@ -6,7 +6,7 @@ import javax.inject.Inject
 class FinishSessionUseCase @Inject constructor(private val sessionRepo: SessionRepo) {
 
     suspend operator fun invoke(duration: Long) {
-        sessionRepo.endTrip(duration)
+        sessionRepo.endSession(duration)
     }
 
 }

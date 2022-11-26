@@ -1,28 +1,28 @@
 package com.app.fitness.domain.repo
 
-import com.app.fitness.data.local.SessionTracking
-import com.app.fitness.domain.model.Session
+import com.app.fitness.data.local.TrackingSession
+import com.app.fitness.data.model.Session
 import kotlinx.coroutines.flow.Flow
 
 interface SessionRepo {
 
-    suspend fun startTrip()
+    suspend fun startSession()
 
-    suspend fun pauseTrip()
+    suspend fun pauseSession()
 
-    suspend fun resumeTrip()
+    suspend fun resumeSession()
 
-    suspend fun endTrip(duration: Long)
+    suspend fun endSession(duration: Long)
 
     suspend fun updateTripSteps(steps: Int)
 
-    suspend fun updateTripLocation(latitude: Double, longitude: Double)
+    suspend fun updateSessionLocation(latitude: Double, longitude: Double)
 
-    fun getCurrentTripUpdates(): Flow<Session?>
+    fun getCurrentSessionUpdates(): Flow<Session?>
 
-    fun getAllFinishTrips(): Flow<List<Session>>
+    fun getAllFinishSession(): Flow<List<Session>>
 
-    suspend fun getSessionDetails(id: Int): SessionTracking
+    suspend fun getSessionDetails(id: Int): TrackingSession
 
 
 }

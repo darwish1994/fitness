@@ -6,7 +6,7 @@ import javax.inject.Inject
 class StartSessionUseCase @Inject constructor(private val sessionRepo: SessionRepo) {
 
     suspend operator fun invoke() {
-        sessionRepo.startTrip()
+        sessionRepo.startSession()
     }
 
 }
