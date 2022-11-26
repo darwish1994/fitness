@@ -1,0 +1,38 @@
+ext {
+    def room_version = "2.4.3"
+    def coroutines_version = "1.6.4"
+    def hilt_version = "2.44"
+    def nav_version = "2.5.3"
+    def dexter_version = "6.2.3"
+    def map_version = "18.1.0"
+
+
+    room = [
+            room_runtime: "androidx.room:room-runtime:$room_version",
+            room_ktx    : "androidx.room:room-ktx:$room_version",
+            room_kapt   : "androidx.room:room-compiler:$room_version"
+    ]
+
+
+    coroutines = [
+            coroutines_core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
+            coroutines_android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    ]
+
+
+    hilt = [
+            hilt_android: "com.google.dagger:hilt-android:$hilt_version",
+            hilt_kapt   : "com.google.dagger:hilt-compiler:$hilt_version"
+
+    ]
+
+    navigation = [
+            navigation_fragment: "androidx.navigation:navigation-fragment-ktx:$nav_version",
+            navigation_ui      : "androidx.navigation:navigation-ui-ktx:$nav_version"
+    ]
+
+    dexter = "com.karumi:dexter:$dexter_version"
+
+    map = "com.google.android.gms:play-services-maps:$map_version"
+
+}
