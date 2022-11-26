@@ -16,7 +16,7 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
      * save it in data base
      * */
     override suspend fun startTrip() {
-        trackingDao.saveTrip(
+        trackingDao.saveSession(
             Session(
                 status = Status.START
             )
@@ -31,7 +31,7 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
         trip?.apply {
             if (status == Status.START) {
                 status = Status.PAUSE
-                trackingDao.updateTrip(this)
+                trackingDao.updateSession(this)
             }
         }
 
@@ -46,7 +46,7 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
         trip?.apply {
             if (status == Status.PAUSE) {
                 status = Status.START
-                trackingDao.updateTrip(this)
+                trackingDao.updateSession(this)
             }
         }
     }
@@ -64,7 +64,7 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
             if (status != Status.FINISHED) {
                 status = Status.FINISHED
                 this.duration = duration
-                trackingDao.updateTrip(this)
+                trackingDao.updateSession(this)
             }
         }
     }
@@ -80,7 +80,7 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
         trip?.apply {
             if (status != Status.FINISHED) {
                 this.steps = steps
-                trackingDao.updateTrip(this)
+                trackingDao.updateSession(this)
             }
         }
     }
