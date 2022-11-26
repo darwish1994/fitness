@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class SessionsUseCase @Inject constructor(private val sessionRepo: SessionRepo) {
 
-     operator fun invoke() = sessionRepo.getAllFinishTrips()
+     operator fun invoke() = sessionRepo.getAllFinishSession()
 
 
 }

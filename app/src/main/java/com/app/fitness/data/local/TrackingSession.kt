@@ -5,7 +5,7 @@ import androidx.room.Relation
 import com.app.fitness.domain.model.Session
 import com.app.fitness.domain.model.Tracking
 
-data class SessionTracking(
+data class TrackingSession(
     @Embedded
     val session: Session,
     @Relation(parentColumn = "id", entityColumn = "tripId")

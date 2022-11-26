@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class CurrentSessionUseCase @Inject constructor(private val sessionRepo: SessionRepo) {
 
-     operator fun invoke() = sessionRepo.getCurrentTripUpdates()
+     operator fun invoke() = sessionRepo.getCurrentSessionUpdates()
 
 
 }

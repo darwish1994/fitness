@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.Flow
 interface SessionDao {
 
     @Insert(onConflict = REPLACE)
-    suspend fun saveSession(trip: Session)
+    suspend fun saveSession(session: Session)
 
     @Update
-    suspend fun updateSession(trip: Session)
+    suspend fun updateSession(session: Session)
 
     @Insert(onConflict = REPLACE)
     suspend fun saveLocation(tracking: Tracking)
@@ -33,7 +33,7 @@ interface SessionDao {
     fun getCurrentSession(): Flow<Session?>
 
     @Query("SELECT * FROM session where id=:sessionId")
-    suspend fun getSessionDetails(sessionId: Int): SessionTracking
+    suspend fun getSessionDetails(sessionId: Int): TrackingSession
 
 
 }

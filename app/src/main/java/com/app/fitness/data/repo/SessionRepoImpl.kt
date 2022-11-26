@@ -1,7 +1,7 @@
 package com.app.fitness.data.repo
 
 import com.app.fitness.data.local.SessionDao
-import com.app.fitness.data.local.SessionTracking
+import com.app.fitness.data.local.TrackingSession
 import com.app.fitness.domain.model.Session
 import com.app.fitness.domain.model.Status
 import com.app.fitness.domain.model.Tracking
@@ -15,7 +15,7 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
      * create new trip and make it status [Status.START]
      * save it in data base
      * */
-    override suspend fun startTrip() {
+    override suspend fun startSession() {
         trackingDao.saveSession(
             Session(
                 status = Status.START
@@ -26,7 +26,7 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
     /**
      * pause last trip in data base
      * */
-    override suspend fun pauseTrip() {
+    override suspend fun pauseSession() {
         val trip = trackingDao.getLastSession()
         trip?.apply {
             if (status == Status.START) {
@@ -41,7 +41,7 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
      *
      * resume trip after pause
      * */
-    override suspend fun resumeTrip() {
+    override suspend fun resumeSession() {
         val trip = trackingDao.getLastSession()
         trip?.apply {
             if (status == Status.PAUSE) {
@@ -58,7 +58,7 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
      **/
 
 
-    override suspend fun endTrip(duration: Long) {
+    override suspend fun endSession(duration: Long) {
         val trip = trackingDao.getLastSession()
         trip?.apply {
             if (status != Status.FINISHED) {
@@ -68,7 +68,6 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
             }
         }
     }
-
 
 
     /***
@@ -85,13 +84,13 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
         }
     }
 
-    override suspend fun updateTripLocation(latitude: Double, longitude: Double) {
+    override suspend fun updateSessionLocation(latitude: Double, longitude: Double) {
         val trip = trackingDao.getLastSession()
         trip?.apply {
-            if (status != Status.FINISHED) {
+            if (status != Status.FINISHED && id != null) {
                 trackingDao.saveLocation(
                     Tracking(
-                        tripId = id!!,
+                        tripId = id,
                         latitude = latitude,
                         longitude = longitude
                     )
@@ -102,13 +101,13 @@ class SessionRepoImpl @Inject constructor(private val trackingDao: SessionDao) :
     }
 
 
-
-    override fun getCurrentTripUpdates(): Flow<Session?> = trackingDao.getCurrentSession()
+    override fun getCurrentSessionUpdates(): Flow<Session?> = trackingDao.getCurrentSession()
 
     /**
      * get all complete sessions
      * */
-    override  fun getAllFinishTrips(): Flow<List<Session>> = trackingDao.getSessions(Status.FINISHED)
+    override fun getAllFinishSession(): Flow<List<Session>> = trackingDao.getSessions(Status.FINISHED)
 
-    override suspend fun getSessionDetails(id: Int): SessionTracking = trackingDao.getSessionDetails(id)
+    override suspend fun getSessionDetails(id: Int): TrackingSession =
+        trackingDao.getSessionDetails(id)
 }
