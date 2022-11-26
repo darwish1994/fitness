@@ -26,19 +26,19 @@ class DetailsFragment : Fragment(R.layout.fragment_details), OnMapReadyCallback 
     private val binding by viewBinding(FragmentDetailsBinding::bind)
     private val viewModel by viewModels<DetailsViewModel>()
     private val args by navArgs<DetailsFragmentArgs>()
-    private var map: GoogleMap? = null
+
+    companion object {
+        const val zoom = 18.0f
+        const val fontSize=15f
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync(this)
-
-
     }
 
-    override fun onMapReady(p0: GoogleMap) {
-        map = p0
+    override fun onMapReady(map: GoogleMap) {
         lifecycleScope.launch {
             val session = viewModel.getSession(args.sessionId)
             binding.tvDistance.text = session.session.steps?.getDistanceCovered()
@@ -46,14 +46,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details), OnMapReadyCallback 
             binding.tvTimer.text = session.session.duration?.timerFormat()
 
             session.locations.firstOrNull()?.let {
-                map?.applyMapCamera(LatLng(it.latitude, it.longitude))
+                map.applyMapCamera(LatLng(it.latitude, it.longitude), zoom)
             }
-            map?.addPolyline(PolylineOptions().addAll(session.locations.map {
+            map.addPolyline(PolylineOptions().addAll(session.locations.map {
                 LatLng(
                     it.latitude,
                     it.longitude
                 )
-            }).color(Color.RED).width(20F))
+            }).color(Color.RED).width(fontSize))
 
 
         }

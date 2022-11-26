@@ -1,4 +1,4 @@
-package com.app.fitness.common.diff
+package com.app.fitness.presenter.history.diff
 
 import androidx.recyclerview.widget.DiffUtil
 import com.app.fitness.domain.model.Session

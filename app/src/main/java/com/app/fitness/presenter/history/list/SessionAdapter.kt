@@ -4,15 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.app.fitness.common.diff.SessionDiffUtil
+import com.app.fitness.presenter.history.diff.SessionDiffUtil
 import com.app.fitness.common.extention.getDistanceCovered
 import com.app.fitness.common.extention.timerFormat
 import com.app.fitness.databinding.ItemLayoutSessionBinding
 import com.app.fitness.domain.model.Session
 
-class SessionAdapter (private val listener:(Session)->Unit): RecyclerView.Adapter<SessionAdapter.SessionViewHolder>() {
+class SessionAdapter : RecyclerView.Adapter<SessionAdapter.SessionViewHolder>() {
 
     private val dataList = arrayListOf<Session>()
+
+    private var sessionOnClick:SessionOnClick?=null
+
+    fun setListener(listener: SessionOnClick?){
+        sessionOnClick=listener
+    }
 
     fun updateList(data: List<Session>) {
         val diffUtil = SessionDiffUtil(dataList, data)
@@ -30,7 +36,7 @@ class SessionAdapter (private val listener:(Session)->Unit): RecyclerView.Adapte
 
         init {
             layout.root.setOnClickListener {
-                listener.invoke(dataList[adapterPosition])
+                sessionOnClick?.onSessionClicked(dataList[adapterPosition])
             }
         }
 

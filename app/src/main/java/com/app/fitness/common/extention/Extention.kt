@@ -37,11 +37,7 @@ fun <T : ViewBinding> Fragment.viewBinding(viewBindingFactory: (View) -> T) =
     FragmentViewBindingDelegate(this, viewBindingFactory)
 
 
-fun Notification.stepNotify(context: Context) {
-    val notificationManager =
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    notificationManager.notify(1, this)
-}
+
 
 fun Int.getDistanceCovered(): String {
     val feet = (this * 2.5).toInt()
@@ -58,32 +54,5 @@ fun Long.timerFormat(): String {
     return String.format("%02d:%02d:%02d", hour, min, sec)
 }
 
-fun GoogleMap.applyMapCamera(latLng: LatLng) {
-    val cameraPosition = CameraPosition.Builder()
-        .target(latLng) // Sets the center of the map
-        .zoom(18.0f) // Sets the zoom
-        .build()
-    this.animateCamera(
-        CameraUpdateFactory.newCameraPosition(cameraPosition)
-    )
-}
 
 
-/**
- * total distance between points
- * */
-fun List<Tracking>.calculateDistance(): Int {
-    var sum = 0f
-    val results = FloatArray(1)
-    for (i in 0 until size - 1) {
-        Location.distanceBetween(
-            get(i).latitude,
-            get(i).longitude,
-            get(i + 1).latitude,
-            get(i + 1).longitude,
-            results
-        )
-        sum += results[0]
-    }
-    return sum.toInt()
-}
