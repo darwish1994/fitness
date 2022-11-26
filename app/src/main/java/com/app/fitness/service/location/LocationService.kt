@@ -75,7 +75,7 @@ class LocationService : Service() {
                 lastStepResult = it
             updateSessionStepsUseCase.invoke(it - lastStepResult!!)
 
-            NotificationUtil.createStepsNotification(this, it).stepNotify(this)
+            NotificationUtil.createStepsNotification(this, it - lastStepResult!!).stepNotify(this)
 
         }.launchIn(serviceScope)
 
