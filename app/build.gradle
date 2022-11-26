@@ -47,6 +47,10 @@ android {
     }
 }
 
+tasks.dokkaHtml.configure {
+    outputDirectory.set(file("../doc/html"))
+}
+
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
