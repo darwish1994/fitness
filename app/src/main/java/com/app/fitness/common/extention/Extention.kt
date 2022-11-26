@@ -47,7 +47,7 @@ fun Int.getDistanceCovered(): String {
     val feet = (this * 2.5).toInt()
     val distance = feet / 3.281
     val finalDistance: Double = String.format("%.2f", distance).toDouble()
-    return "$finalDistance "
+    return "$finalDistance"
 }
 
 fun Long.timerFormat(): String {
