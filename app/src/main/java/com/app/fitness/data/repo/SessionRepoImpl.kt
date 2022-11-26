@@ -2,9 +2,9 @@ package com.app.fitness.data.repo
 
 import com.app.fitness.data.local.SessionDao
 import com.app.fitness.data.local.TrackingSession
-import com.app.fitness.domain.model.Session
-import com.app.fitness.domain.model.Status
-import com.app.fitness.domain.model.Tracking
+import com.app.fitness.data.model.Session
+import com.app.fitness.data.model.Status
+import com.app.fitness.data.model.Tracking
 import com.app.fitness.domain.repo.SessionRepo
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

@@ -1,9 +1,5 @@
 package com.app.fitness.common.extention
 
-import android.app.Notification
-import android.app.NotificationManager
-import android.content.Context
-import android.location.Location
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -13,11 +9,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import com.app.fitness.common.base.FragmentViewBindingDelegate
-import com.app.fitness.domain.model.Tracking
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
 
 // observer
 fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) =

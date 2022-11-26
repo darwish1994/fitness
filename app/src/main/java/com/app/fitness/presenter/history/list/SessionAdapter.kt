@@ -8,7 +8,7 @@ import com.app.fitness.presenter.history.diff.SessionDiffUtil
 import com.app.fitness.common.extention.getDistanceCovered
 import com.app.fitness.common.extention.timerFormat
 import com.app.fitness.databinding.ItemLayoutSessionBinding
-import com.app.fitness.domain.model.Session
+import com.app.fitness.data.model.Session
 
 class SessionAdapter : RecyclerView.Adapter<SessionAdapter.SessionViewHolder>() {
 

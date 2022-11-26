@@ -1,4 +1,4 @@
-package com.app.fitness.domain.model
+package com.app.fitness.data.model
 
 enum class Status {
     START,

@@ -21,24 +21,25 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class AppModule {
+class LocalDataSourceModule {
+    companion object {
+        private const val DATA_BASE_NAME = "fitness.db"
+    }
 
-    @Provides
     @Singleton
-    fun provideLocationClient(@ApplicationContext context: Context, fusedLocationProviderClient: FusedLocationProviderClient):LocationClient= LocationUpdateImpl(context,fusedLocationProviderClient)
-
-
     @Provides
-    @Singleton
-    fun provideStepClient(@ApplicationContext context: Context): StepsClient = StepsClientImpl(context)
+    fun provideDataBase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(
+            context.applicationContext,
+            AppDatabase::class.java,
+            DATA_BASE_NAME
+        ).fallbackToDestructiveMigration()
+            .build()
+    }
 
+    @Singleton
     @Provides
-    @Singleton
-    fun provideFusedLocationClient(@ApplicationContext context: Context) = LocationServices.getFusedLocationProviderClient(context)
+    fun provideTrackingDao(appDatabase: AppDatabase):SessionDao=appDatabase.fitnessDea()
 
-
-    @Provides
-    @Singleton
-    fun provideSessionRepo(sessionDao: SessionDao):SessionRepo=SessionRepoImpl(sessionDao)
 
 }

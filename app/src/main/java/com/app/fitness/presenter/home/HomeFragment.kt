@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.app.fitness.R
 import com.app.fitness.common.extention.*
 import com.app.fitness.databinding.FragmentHomeBinding
-import com.app.fitness.domain.model.Session
-import com.app.fitness.domain.model.Status
+import com.app.fitness.data.model.Session
+import com.app.fitness.data.model.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -24,12 +23,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // check if it has register observer before
-        if (!viewModel.currentSessionLiveData.hasActiveObservers())
-            observe(viewModel.currentSessionLiveData, ::sessionObserver)
+        if (!viewModel.getSessionLiveData().hasActiveObservers())
+            observe(viewModel.getSessionLiveData(), ::sessionObserver)
 
         // check if it has register observer before
-        if (!viewModel.timerLiveData.hasActiveObservers())
-            observe(viewModel.timerLiveData,::timerObserver)
+        if (!viewModel.getTimerLiveData().hasActiveObservers())
+            observe(viewModel.getTimerLiveData(),::timerObserver)
 
         // get current session updates
         viewModel.getCurrentSession()
@@ -93,7 +92,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), View.OnClickListener {
             granted = {
                 viewModel.startSession()
             },
-            denied = {}
+            denied = {
+                activity?.showToast(R.string.refuse_permission_msg)
+            }
         )
 
     }

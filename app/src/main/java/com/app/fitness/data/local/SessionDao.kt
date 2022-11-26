@@ -5,9 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
-import com.app.fitness.domain.model.Tracking
-import com.app.fitness.domain.model.Session
-import com.app.fitness.domain.model.Status
+import com.app.fitness.data.model.Tracking
+import com.app.fitness.data.model.Session
+import com.app.fitness.data.model.Status
 import kotlinx.coroutines.flow.Flow
 
 @Dao

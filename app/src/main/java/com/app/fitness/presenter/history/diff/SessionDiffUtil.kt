@@ -1,7 +1,7 @@
 package com.app.fitness.presenter.history.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.app.fitness.domain.model.Session
+import com.app.fitness.data.model.Session
 
 class SessionDiffUtil (private val oldList: List<Session>, private val newList: List<Session>) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size

@@ -5,9 +5,9 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.app.fitness.domain.model.Session
-import com.app.fitness.domain.model.Status
-import com.app.fitness.domain.model.Tracking
+import com.app.fitness.data.model.Session
+import com.app.fitness.data.model.Status
+import com.app.fitness.data.model.Tracking
 import com.google.common.truth.Truth
 import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi

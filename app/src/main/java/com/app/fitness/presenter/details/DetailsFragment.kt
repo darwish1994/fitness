@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment(R.layout.fragment_details), OnMapReadyCallback {
+class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val binding by viewBinding(FragmentDetailsBinding::bind)
     private val viewModel by viewModels<DetailsViewModel>()
@@ -29,33 +29,30 @@ class DetailsFragment : Fragment(R.layout.fragment_details), OnMapReadyCallback 
 
     companion object {
         const val zoom = 18.0f
-        const val fontSize=15f
+        const val fontSize = 15f
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync(this)
-    }
-
-    override fun onMapReady(map: GoogleMap) {
         lifecycleScope.launch {
             val session = viewModel.getSession(args.sessionId)
             binding.tvDistance.text = session.session.steps?.getDistanceCovered()
             binding.tvSteps.text = session.session.steps?.toString()
             binding.tvTimer.text = session.session.duration?.timerFormat()
 
-            session.locations.firstOrNull()?.let {
-                map.applyMapCamera(LatLng(it.latitude, it.longitude), zoom)
+            (childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment).getMapAsync { map ->
+                session.locations.firstOrNull()?.let {
+                    map.applyMapCamera(LatLng(it.latitude, it.longitude), zoom)
+                }
+                map.addPolyline(PolylineOptions().addAll(session.locations.map {
+                    LatLng(
+                        it.latitude,
+                        it.longitude
+                    )
+                }).color(Color.RED).width(fontSize))
+
             }
-            map.addPolyline(PolylineOptions().addAll(session.locations.map {
-                LatLng(
-                    it.latitude,
-                    it.longitude
-                )
-            }).color(Color.RED).width(fontSize))
-
-
         }
 
     }
