@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">Fitness</string>
+    <string name="session_notification_channel_id">1111</string>
+    <string name="session_notification_channel_name">Session Channel</string>
+    <string name="session_channel_description">Channel to track steps counter</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="start">Start</string>
+    <string name="duration">Duration</string>
+    <string name="steps">Steps</string>
+    <string name="distance_m">Distance (M)</string>
+    <string name="end">End</string>
+    <string name="resume">Resume</string>
+    <string name="home">Home</string>
+    <string name="history">History</string>
+
+    <string name="pause">Pause</string>
+    <string name="gps_not_enable">GPS is not enable</string>
+    <string name="steps_tracking">Steps Tracking</string>
+    <string name="search_for_location">Searching for location</string>
+    <string name="no_sensor">No Step Counter Sensor</string>
+    <string name="fail_to_register_sensor">fail to register step sensor</string>
+    <string name="steps_number">Steps (%d)</string>
+    <string name="Details">details</string>
+    <string name="refuse_permission_msg">To use app feature accept permissions</string>
 </resources>
