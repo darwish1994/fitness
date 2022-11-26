@@ -4,10 +4,8 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
     id 'androidx.navigation.safeargs.kotlin'
-
-
 }
-
+apply from: 'deps.gradle'
 android {
     compileSdk 32
 
@@ -24,7 +22,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders=[MAPS_API_KEY: secretProperties['MAPS_API_KEY']]
+        manifestPlaceholders = [MAPS_API_KEY: secretProperties['MAPS_API_KEY']]
     }
 
     buildTypes {
@@ -48,6 +46,7 @@ android {
 
 dependencies {
 
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
@@ -59,34 +58,30 @@ dependencies {
 
 
     // room database
-    def room_version = "2.4.3"
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    implementation room.room_runtime
+    implementation room.room_ktx
+    kapt room.room_kapt
 
 
     // coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    implementation coroutines.coroutines_core
+    implementation coroutines.coroutines_android
 
     // hilt
-    def hilt_version="2.44"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    implementation hilt.hilt_android
+    kapt hilt.hilt_kapt
 
 
     // navigation
-    def nav_version = "2.5.3"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation navigation.navigation_fragment
+    implementation navigation.navigation_ui
 
     // permission dexter
-    implementation 'com.karumi:dexter:6.2.3'
+    implementation dexter
 
     // map
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
-    implementation 'com.google.maps.android:android-maps-utils:2.2.3'
-
+    implementation map
 
 
 }
