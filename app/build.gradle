@@ -3,11 +3,17 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'androidx.navigation.safeargs.kotlin'
+
 
 }
 
 android {
     compileSdk 32
+
+    Properties secretProperties = new Properties()
+
+    secretProperties.load(project.rootProject.file("local.properties").newDataInputStream())
 
     defaultConfig {
         applicationId "com.app.fitness"
@@ -17,6 +23,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders=[MAPS_API_KEY: secretProperties['MAPS_API_KEY']]
     }
 
     buildTypes {
@@ -74,6 +82,11 @@ dependencies {
 
     // permission dexter
     implementation 'com.karumi:dexter:6.2.3'
+
+    // map
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.maps.android:android-maps-utils:2.2.3'
+
 
 
 }
