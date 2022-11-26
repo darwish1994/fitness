@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.app.fitness.R
 import com.app.fitness.common.extention.observe
 import com.app.fitness.common.extention.viewBinding
@@ -20,7 +21,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
 
     private val adapter by lazy {
         SessionAdapter {
-
+            findNavController().navigate(HistoryFragmentDirections.actionViewHistoryToDetailsFragment(it.id!!))
         }
     }
 

@@ -23,21 +23,17 @@ interface SessionDao {
     suspend fun saveLocation(tracking: Tracking)
 
     @Query("SELECT * FROM session where status=:status ORDER BY id desc")
-     fun getSessions(status: Status): Flow<List<Session>>
+    fun getSessions(status: Status): Flow<List<Session>>
 
-    @Query("SELECT * FROM tracking where tripId=:tripId")
-    suspend fun getTracking(tripId: Int): List<Tracking>
-
-    @Query("SELECT * FROM tracking where tripId=:tripId ORDER BY id desc LIMIT 1")
-    suspend fun getLastTracking(tripId: Int): Tracking?
 
     @Query("SELECT * FROM session ORDER BY id desc LIMIT 1")
-    suspend fun getLastTrip(): Session?
+    suspend fun getLastSession(): Session?
 
     @Query("SELECT * FROM session ORDER BY id desc LIMIT 1")
-     fun getCurrentTrip(): Flow<Session?>
+    fun getCurrentSession(): Flow<Session?>
 
-
+    @Query("SELECT * FROM session where id=:sessionId")
+    suspend fun getSessionDetails(sessionId: Int): SessionTracking
 
 
 }
