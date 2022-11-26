@@ -36,6 +36,8 @@ class LocationService : Service() {
     @Inject
     lateinit var updateSessionLocationUseCase: UpdateSessionLocationUseCase
 
+    private var lastStepResult: Int? = null
+
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
@@ -69,17 +71,20 @@ class LocationService : Service() {
         stepClient.getStepsUpdates().catch { e ->
             e.printStackTrace()
         }.onEach {
-            updateSessionStepsUseCase.invoke(it)
+            if (lastStepResult == null)
+                lastStepResult = it
+            updateSessionStepsUseCase.invoke(it - lastStepResult!!)
 
-            NotificationUtil.createStepsNotification(this,it).stepNotify(this)
+            NotificationUtil.createStepsNotification(this, it).stepNotify(this)
 
         }.launchIn(serviceScope)
 
 
-        startForeground(1, NotificationUtil.createStepsNotification(this,0))
+        startForeground(1, NotificationUtil.createStepsNotification(this, 0))
     }
 
     private fun stop() {
+        lastStepResult = null
         stopForeground(true)
         stopSelf()
     }
