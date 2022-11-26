@@ -25,6 +25,19 @@ class CalculateDistanceTest {
     }
 
 
+    @Test
+    fun `check steps distance accuracy`(){
+
+        val steps= 100
+        val distance = steps.getDistanceCovered().toDoubleOrNull()
+
+        assertThat(distance).isGreaterThan(100*.5)
+
+        assertThat(distance).isLessThan(100*.8)
+
+
+    }
+
 
 
 
