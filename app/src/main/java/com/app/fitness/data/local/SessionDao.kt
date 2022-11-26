@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.Flow
 interface SessionDao {
 
     @Insert(onConflict = REPLACE)
-    suspend fun saveTrip(trip: Session)
+    suspend fun saveSession(trip: Session)
 
     @Update
-    suspend fun updateTrip(trip: Session)
+    suspend fun updateSession(trip: Session)
 
     @Insert(onConflict = REPLACE)
     suspend fun saveLocation(tracking: Tracking)
